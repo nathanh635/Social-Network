@@ -1,12 +1,17 @@
-const { Schema, Types, Model } = require('mongoose');
+const { Schema, Types } = require('mongoose');
 
 const reactionSchema = new Schema({
-    reactionId: {       type: Schema.Types.ObjectId,
+    reactionId: {type: Schema.Types.ObjectId,
         default: () => new Types.ObjectId(),
       },
-    reactionBody: { type: String, required: true, maxLength: 280 }, //add a getter method to format the timestamp
+    reactionBody: { type: String, required: true, maxLength: 280 }, 
     username: { type: String, required: true},
-    createdAt: { type: Date, default: Date.now }, //add a getter method to format the timestamp
+    createdAt: { type: Date, default: Date.now, get: formatDate }
+
   });
+
+    function formatDate(date) {
+      return date.toLocaleDateString();
+    }
 
   module.exports = reactionSchema;

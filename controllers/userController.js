@@ -49,39 +49,27 @@ module.exports = {
     addFriend(req, res) {
       User.findOneAndUpdate({ _id: req.params.userId },
         { $addToSet: { friends: req.params.friendId } },
-              { new: true })
-
-        .then((user) =>
-          !user
-            ? res.status(404).json({ message: 'No user with that ID' })
-            : res.json({ message: 'Friend added!'} ))
-
+              { new: true });
+               let IDs = [req.params.userId, req.params.friendId];
+                return IDs
+        .then((users) =>
+        User.findOneAndUpdate({ _id: users[1] },
+          { $addToSet: { friends: users[0] } },
+                { new: true }))
         .catch((err) => res.status(500).json(err));
-        User.findOneAndUpdate({ _id: req.params.friendId },
-          { $addToSet: { friends: req.params.userId } },
-                { new: true })
-  
-          .then((user) =>
-            !user
-              ? res.status(404).json({ message: 'No user with that ID' })
-              : res.json({ message: 'Also added to other friend list!'} ))
-          .catch((err) => res.status(500).json(err));
     },
 
-    //delete friend
+    //delete friend 
     deleteFriend(req, res) {
-      User.findOneAndUpdate({ _id: req.params.userId })
-        .then((user) =>
-          !user
-            ? res.status(404).json({ message: 'No user with that ID' })
-            : User.findOneAndUpdate(
-              { _id: req.params.userId },
-              { $pull: { friends: friendId } }),
-              User.findOneAndUpdate(
-                { _id: req.params.friendId },
-                { $pull: { friends: userId } })
-        )
-        .then(() => res.json({ message: 'Friend deleted!' }))
+      User.findOneAndUpdate({ _id: req.params.userId },
+        { $pull: { friends: req.params.friendId } },
+              { new: true });
+               let IDs = [req.params.userId, req.params.friendId];
+                return IDs
+        .then((users) =>
+        User.findOneAndUpdate({ _id: users[1] },
+          { $pull: { friends: users[0] } },
+                { new: true }))
         .catch((err) => res.status(500).json(err));
     },
 
