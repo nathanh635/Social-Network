@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
+
 
 //set up email validation function
 
@@ -8,7 +9,7 @@ const validateEmail = (email) => {
 };
 
 //set up new schema
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: { type: String, required: true, unique: true, trim: true },
   email: { type: String, required: true, unique: true,     
     validate: [validateEmail, "Please fill a valid email address"],
@@ -17,6 +18,12 @@ const userSchema = new mongoose.Schema({
     "Please fill a valid email address",
   ], },
   friends: [],
+  thoughts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Thought',
+    },
+  ]
 },
 {
   //allow virtuals
@@ -25,7 +32,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
 
 //set up virtual for friendCount
