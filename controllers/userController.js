@@ -25,7 +25,7 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // Delete a user and associated apps
+  // Delete a user and associated thoughts
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
       .then((user) =>
@@ -47,29 +47,31 @@ module.exports = {
 
     //add friend
     addFriend(req, res) {
-      User.findOneAndUpdate({ _id: req.params.userId },
-        { $addToSet: { friends: req.params.friendId } },
-              { new: true });
-               let IDs = [req.params.userId, req.params.friendId];
-                return IDs
-        .then((users) =>
-        User.findOneAndUpdate({ _id: users[1] },
-          { $addToSet: { friends: users[0] } },
+      let IDs = [req.params.userId, req.params.friendId];
+      User.findOneAndUpdate({ _id: IDs[0] },
+        { $addToSet: { friends: IDs[1]} },
+              { new: true })
+        .then(() =>
+        //Add userID as a friend to friends' list as well
+        User.findOneAndUpdate({ _id: IDs[1] },
+          { $addToSet: { friends: IDs[0]} },
                 { new: true }))
+                .then(() => res.json({ message: 'Friend added!' }))
         .catch((err) => res.status(500).json(err));
     },
 
     //delete friend 
     deleteFriend(req, res) {
-      User.findOneAndUpdate({ _id: req.params.userId },
-        { $pull: { friends: req.params.friendId } },
-              { new: true });
-               let IDs = [req.params.userId, req.params.friendId];
-                return IDs
-        .then((users) =>
-        User.findOneAndUpdate({ _id: users[1] },
-          { $pull: { friends: users[0] } },
+      let IDs = [req.params.userId, req.params.friendId];
+      User.findOneAndUpdate({ _id: IDs[0] },
+        { $pull: { friends: IDs[1]} },
+              { new: true })
+        .then(() =>
+        //delete from friend's list as well.
+        User.findOneAndUpdate({ _id: IDs[1] },
+          { $pull: { friends: IDs[0]} },
                 { new: true }))
+                .then(() => res.json({ message: 'Friend deleted!' }))
         .catch((err) => res.status(500).json(err));
     },
 

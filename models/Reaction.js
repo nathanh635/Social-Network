@@ -10,6 +10,7 @@ const reactionSchema = new Schema({
 
   });
 
+  //getter for date formnatting
     function formatDate(date) {
       return date.toLocaleDateString();
     }

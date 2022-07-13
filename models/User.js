@@ -11,7 +11,8 @@ const validateEmail = (email) => {
 //set up new schema
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true, trim: true },
-  email: { type: String, required: true, unique: true,     
+  email: { type: String, required: true, unique: true,   
+    //email validation using regex  
     validate: [validateEmail, "Please fill a valid email address"],
   match: [
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -19,12 +20,14 @@ const userSchema = new Schema({
   ], },
   friends: [
     {
+      //list of friends referencing itself
         type: Schema.Types.ObjectId,
         ref: 'User',
 }
   ],
   thoughts: [
     {
+      //array of thought schemas
       type: Schema.Types.ObjectId,
       ref: 'Thought',
     },

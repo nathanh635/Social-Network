@@ -1,12 +1,15 @@
 const { Thought, User, Reaction } = require('../models');
 
 module.exports = {
+
+  //get all thoughts
   getThoughts(req, res) {
     Thought.find()
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
 
+  //get one thought
   getSingleThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -17,7 +20,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  // TODO: Add comments to the functionality of the createApplication method
+  // create a thought
   createThought(req, res) {
 
     Thought.create(req.body)
@@ -43,10 +46,10 @@ module.exports = {
       });
   },
 
-  
+  //update an existing thought
   updateThought(req, res) {
     Thought.findOneAndUpdate(
-      //find an application by the ID and updates the contents based on what's in the body
+      //find a thought by the ID and updates the contents based on what's in the body
       { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
@@ -62,7 +65,7 @@ module.exports = {
       });
   },
 
-  
+  //delete a thought
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
     //finds the thought and removes it from the thoughts list
@@ -101,8 +104,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // TODO: Add comments to the functionality of the remove tag method
-  //finds one application and deletes a tag, 
+  //finds one thought and delete a reaction, 
   deleteReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },

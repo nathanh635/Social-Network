@@ -17,11 +17,7 @@ const thoughtSchema = new mongoose.Schema({
       return date.toLocaleDateString();
     }
 
-
-
 const Thought = mongoose.model('Thought', thoughtSchema);
-
-const handleError = (err) => console.error(err);
 
 //set up virtual for reactionCount
 thoughtSchema.virtual('reactionCount').get(function () {
