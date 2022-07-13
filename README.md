@@ -48,12 +48,12 @@
 
   Below is a screenshot of the tested application.
 
-![deployed screenshot1](./public/assets/screenshot1.PNG)
-![deployed screenshot2](./public/assets/screenshot2.PNG)
+![screenshot1](./assets/getone.PNG)
+![screenshot2](./assets/getthoughts.PNG)
   
 ## Links
 
-  Repository: https://github.com/nathanh635/TechBlog
+  Repository: https://github.com/nathanh635/Social-Network
   
-  Deployed webpage: https://pure-island-12653.herokuapp.com/
+  Video Walkthrough: https://drive.google.com/drive/folders/1jjZHsw1xCagscyZc65egFiHzQ_krQKYM?usp=sharing
 
